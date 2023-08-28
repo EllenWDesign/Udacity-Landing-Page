@@ -1,22 +1,21 @@
-const navBar = document.querySelector('#navbar__list');
-// sections global var
-const sections = document.querySelectorAll('section');
 
+// define global variables
+const navBar = document.querySelector('#navbar__list'); 
+const sections = document.querySelectorAll('section'); 
+const menuLinks = document.querySelectorAll('.menu__link'); 
 
+// build navigation 
 const navBuild = () => {
 
   // looping over all sections
   sections.forEach(section => {
     let buttons = document.createElement("li");
-    const sectionID = section.id;
+    const sectionID = section.id; 
     const sectionDataNav = section.dataset.nav;
 
     buttons.innerHTML = `<a class="menu__link" href="#${sectionID}">${sectionDataNav}</a>`;
     navBar.appendChild(buttons);
   });
-  // append all elements to the navigation
-
-
 
 };
 
@@ -24,9 +23,7 @@ navBuild();
 
 
 
-// Scroll to anchor ID using scrollTO event
-
-// Scroll to anchor ID using scrollTO event
+// create function for smooth scroll effect to each section
 const smoothScroll = (evt) => {
   evt.preventDefault();
   const dataLink = evt.target.getAttribute('href');
@@ -50,12 +47,19 @@ const options = {
 };
 
 
-const makeActive = new IntersectionObserver(function(entries, observer) {
+let makeActive = new IntersectionObserver(function(entries, observer) {
   entries.forEach(entry => {
-    entry.target.classList('your-active-class')
+    if(entry.isIntersecting) {
+      menuLinks.classList.add('active');
+      sections.classList.add('your-active-class');
+    } else if(!entry.isIntersecting) {
+      menuLinks.classList.remove('active');
+      sections.className.remove('your-active-class');
+    };
   });
 });
 
 sections.forEach(section => {
   makeActive.observe(section);
 });
+
