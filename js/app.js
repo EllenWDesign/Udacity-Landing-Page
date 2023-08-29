@@ -1,8 +1,12 @@
+// In advance, thank you for reviewing this. 
+// I APPRECIATE ANY AND ALL COMMENTS!!! 
+
 
 // define global variables
 const navBar = document.querySelector('#navbar__list'); 
 const sections = document.querySelectorAll('section'); 
-const menuLinks = document.querySelectorAll('.menu__link'); 
+const buttonToTop = document.querySelectorAll('.button_toTop');
+
 
 // build navigation 
 const navBuild = () => {
@@ -13,15 +17,15 @@ const navBuild = () => {
     const sectionID = section.id; 
     const sectionDataNav = section.dataset.nav;
 
+    // creating buttons
     buttons.innerHTML = `<a class="menu__link" href="#${sectionID}">${sectionDataNav}</a>`;
     navBar.appendChild(buttons);
   });
-
 };
 
+
+// call function to create navigation
 navBuild();
-
-
 
 // create function for smooth scroll effect to each section
 const smoothScroll = (evt) => {
@@ -40,26 +44,85 @@ buttonLinks.forEach((button) => button.addEventListener('click', smoothScroll));
 
 
 // Use IntersectionObserver to active classes in viewport
+// Declare options
 const options = {
   root: null,
   threshold: 0,
   rootMargin: "-150px 0px -150px 0px",
 };
 
-
-let makeActive = new IntersectionObserver(function(entries, observer) {
+// Create function to activate classes in viewport
+let makeActive = new IntersectionObserver(function (entries, observer) {
   entries.forEach(entry => {
-    if(entry.isIntersecting) {
+    // Create variables for both the navigation links and sections
+    const menuLinks = entry.target.querySelector('.menu-link');
+    const section = entry.target;
+    if (entry.isIntersecting) {
       menuLinks.classList.add('active');
-      sections.classList.add('your-active-class');
-    } else if(!entry.isIntersecting) {
+      section.classList.add('your-active-class');
+    } else {
       menuLinks.classList.remove('active');
-      sections.className.remove('your-active-class');
-    };
+      section.classList.remove('your-active-class');
+    }
   });
-});
+}, options);
 
-sections.forEach(section => {
+// Call the function for each section
+const sectionsNav = document.querySelectorAll('.section'); 
+sectionsNav.forEach(section => {
   makeActive.observe(section);
 });
+
+
+// Create function to hide menu while scrolling
+var hideScroll = window.pageYOffset;
+
+window.onscroll = function () {
+  var currentScrollPos = window.pageYOffset;
+
+  if (hideScroll > window.pageYOffset) {
+    document.getElementById("navScroll").style.top = "0";
+  } else {
+    document.getElementById("navScroll").style.top = "-50px";
+  };
+
+  hideScroll = currentScrollPos;
+};
+
+
+// Create function to send user back to top of page
+for (const button of buttonToTop) {
+  button.addEventListener('click', () =>
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  );
+}
+
+
+// create function to have buttons fade in
+const faders = document.querySelectorAll('.fade-in');
+
+const appearOptions = {
+  threshold: 1,
+  rootMargin: "0px 0px -200px 0px"
+};
+
+const appearOnScroll = new IntersectionObserver(function(entries, appearOnScroll) {
+  entries.forEach(entry => {
+    if (!entry.isIntersecting) {
+      return;
+    } else {
+      entry.target.classList.add("appear");
+      appearOnScroll.unobserve(entry.target);
+    }
+  });
+},
+appearOptions);
+
+// Call function for buttons to fade in
+faders.forEach(fader => {
+  appearOnScroll.observe(fader);
+});
+
+
+
 
