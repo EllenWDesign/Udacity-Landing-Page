@@ -1,10 +1,12 @@
-// In advance, thank you for reviewing this. 
-// I APPRECIATE ANY AND ALL COMMENTS!!! 
+/* In advance, thank you for reviewing this. 
+I APPRECIATE ANY AND ALL COMMENTS!!! 
+Anything you type up I will treasure and learn from. 
+*/
 
 
 // define global variables
-const navBar = document.querySelector('#navbar__list'); 
-const sections = document.querySelectorAll('section'); 
+const navBar = document.querySelector('#navbar__list');
+const sections = document.querySelectorAll('section');
 const buttonToTop = document.querySelectorAll('.button_toTop');
 
 
@@ -14,7 +16,7 @@ const navBuild = () => {
   // looping over all sections
   sections.forEach(section => {
     let buttons = document.createElement("li");
-    const sectionID = section.id; 
+    const sectionID = section.id;
     const sectionDataNav = section.dataset.nav;
 
     // creating buttons
@@ -55,21 +57,19 @@ const options = {
 let makeActive = new IntersectionObserver(function (entries, observer) {
   entries.forEach(entry => {
     // Create variables for both the navigation links and sections
-    const menuLinks = entry.target.querySelector('.menu-link');
     const section = entry.target;
     if (entry.isIntersecting) {
-      menuLinks.classList.add('active');
+      navBar.classList.add('active');
       section.classList.add('your-active-class');
     } else {
-      menuLinks.classList.remove('active');
+      navBar.classList.remove('active');
       section.classList.remove('your-active-class');
     }
   });
 }, options);
 
 // Call the function for each section
-const sectionsNav = document.querySelectorAll('.section'); 
-sectionsNav.forEach(section => {
+sections.forEach(section => {
   makeActive.observe(section);
 });
 
@@ -83,7 +83,7 @@ window.onscroll = function () {
   if (hideScroll > window.pageYOffset) {
     document.getElementById("navScroll").style.top = "0";
   } else {
-    document.getElementById("navScroll").style.top = "-50px";
+    document.getElementById("navScroll").style.top = "-219px";
   };
 
   hideScroll = currentScrollPos;
@@ -106,7 +106,7 @@ const appearOptions = {
   rootMargin: "0px 0px -200px 0px"
 };
 
-const appearOnScroll = new IntersectionObserver(function(entries, appearOnScroll) {
+const appearOnScroll = new IntersectionObserver(function (entries, appearOnScroll) {
   entries.forEach(entry => {
     if (!entry.isIntersecting) {
       return;
@@ -116,13 +116,9 @@ const appearOnScroll = new IntersectionObserver(function(entries, appearOnScroll
     }
   });
 },
-appearOptions);
+  appearOptions);
 
 // Call function for buttons to fade in
 faders.forEach(fader => {
   appearOnScroll.observe(fader);
 });
-
-
-
-
